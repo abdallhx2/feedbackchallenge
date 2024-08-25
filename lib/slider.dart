@@ -8,96 +8,81 @@ class CustomSlider extends StatelessWidget {
     final sliderState = Provider.of<SliderState>(context);
     final List<String> labels = ["Bad", "Not Bad", "Good"];
 
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                height: 7,
-                color: sliderState.getBigTextColor(),
+    return GestureDetector(
+      onTapDown: (details) {
+        final width = MediaQuery.of(context).size.width - 20;
+        final tapPosition = details.localPosition.dx;
+        final selectedIndex = (tapPosition / (width / 3)).floor();
+        sliderState.updateIndex(selectedIndex);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    height: 7,
+                    color: sliderState.getBigTextColor(),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(3, (index) {
+                      final isSelected = sliderState.selectedIndex == index;
+                      return SizedBox(
+                        child: AnimatedContainer(
+                          height: isSelected ? 50 : 17,
+                          width: 50,
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.easeInOut,
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? sliderState.getDarkColor()
+                                : sliderState.getBigTextColor(),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: isSelected
+                                ? Transform.rotate(
+                                    angle: index == 2 ? 1.57 : 4.71,
+                                    child: Text(
+                                      ")",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                          color: sliderState.getBigTextColor()),
+                                    ),
+                                  )
+                                : SizedBox.shrink(),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(3, (index) {
-                  return ButtonSlider(
-                    index: index,
-                    isSelected: sliderState.selectedIndex == index,
-                    onPressed: (int index) {
-                      sliderState.updateIndex(index);
-                    },
-                    lineColor: sliderState.getDarkColor(),
-                    pointColor: sliderState.getBigTextColor(),
-                  );
-                }),
-              ),
-            ],
-          ),
-          SizedBox(height: 7),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(3, (index) {
-              return Text(
-                labels[index],
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                  color: sliderState.selectedIndex == index
-                      ? sliderState.getDarkColor()
-                      : sliderState.getBigTextColor(),
-                ),
-              );
-            }),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ButtonSlider extends StatelessWidget {
-  final int index;
-  final bool isSelected;
-  final Function(int) onPressed;
-  final Color lineColor;
-  final Color pointColor;
-
-  const ButtonSlider({
-    super.key,
-    required this.index,
-    required this.isSelected,
-    required this.onPressed,
-    required this.lineColor,
-    required this.pointColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      onTap: () => onPressed(index),
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
-        height: isSelected ? 50 : 17,
-        width: isSelected ? 50 : 17,
-        decoration: BoxDecoration(
-          color: isSelected ? lineColor : pointColor,
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: isSelected
-              ? ImageIcon(
-                  AssetImage("assets/images/smile.png"),
-                  size: 20,
-                )
-
-                
-              : SizedBox.shrink(),
+            ),
+            SizedBox(height: 7),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(3, (index) {
+                return Text(
+                  labels[index],
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: sliderState.selectedIndex == index
+                        ? sliderState.getDarkColor()
+                        : sliderState.getBigTextColor(),
+                  ),
+                );
+              }),
+            ),
+          ],
         ),
       ),
     );

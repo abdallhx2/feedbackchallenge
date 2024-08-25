@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 
 class SliderState with ChangeNotifier {
   int _selectedIndex = 0;
+  bool _isExpanded = false;
 
   int get selectedIndex => _selectedIndex;
+  bool get isExpanded => _isExpanded;
 
   void updateIndex(int index) {
     _selectedIndex = index;
+    notifyListeners();
+  }
+
+  void toggleExpand() {
+    _isExpanded = !_isExpanded;
     notifyListeners();
   }
 
@@ -29,12 +36,17 @@ class SliderState with ChangeNotifier {
     return Color(0xffC05255);
   }
 
+  Color getbuttomColor() {
+    if (_selectedIndex == 2) return Color(0xffA5DB6C);
+    if (_selectedIndex == 1) return Color(0xffEBBA3F);
+    return Color(0xffDA6669);
+  }
+
   String getFeedbackText() {
     if (selectedIndex == 2) return "GOOD";
     if (selectedIndex == 1) return "NOT BAD";
     return "BAD";
   }
-
 
   FaceProperties getFaceProperties() {
     switch (_selectedIndex) {
