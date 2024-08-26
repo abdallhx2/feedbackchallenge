@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class SliderState with ChangeNotifier {
   int _selectedIndex = 0;
   bool _isExpanded = false;
+  String feedbackText = "";
 
   int get selectedIndex => _selectedIndex;
   bool get isExpanded => _isExpanded;
@@ -18,6 +19,19 @@ class SliderState with ChangeNotifier {
     notifyListeners();
   }
 
+  void setFeeedbackText(String text) {
+    feedbackText = text;
+    notifyListeners();
+  }
+
+  bool hasFeeedback() {
+    return feedbackText.isNotEmpty;
+  }
+
+  String getFeeedbackText() {
+    return feedbackText;
+  }
+
   Color getBackgroundColor() {
     if (_selectedIndex == 2) return Color(0xffAEE772);
     if (_selectedIndex == 1) return Color(0xffFDC84C);
@@ -28,6 +42,12 @@ class SliderState with ChangeNotifier {
     if (_selectedIndex == 2) return Color(0xff4C6D0E);
     if (_selectedIndex == 1) return Color(0xff7B6103);
     return Color(0xff6F0000);
+  }
+
+  Color getborderColor() {
+    if (_selectedIndex == 2) return Color.fromARGB(255, 210, 242, 149);
+    if (_selectedIndex == 1) return Color.fromARGB(255, 240, 213, 115);
+    return Color.fromARGB(255, 248, 138, 138);
   }
 
   Color getBigTextColor() {
@@ -42,7 +62,7 @@ class SliderState with ChangeNotifier {
     return Color(0xffDA6669);
   }
 
-  String getFeedbackText() {
+  String getText() {
     if (selectedIndex == 2) return "GOOD";
     if (selectedIndex == 1) return "NOT BAD";
     return "BAD";

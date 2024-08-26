@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomSlider extends StatelessWidget {
+  const CustomSlider({super.key});
+
   @override
   Widget build(BuildContext context) {
     final sliderState = Provider.of<SliderState>(context);
