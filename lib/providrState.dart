@@ -1,7 +1,11 @@
 import 'package:feedbackchallenge/faces.dart';
 import 'package:flutter/material.dart';
 
+enum WidgetSt { initial, feedback, thankYou }
+
 class SliderState with ChangeNotifier {
+  WidgetSt currentWidgetState = WidgetSt.initial;
+
   int _selectedIndex = 0;
   bool _isExpanded = false;
   String feedbackText = "";
@@ -9,6 +13,15 @@ class SliderState with ChangeNotifier {
   int get selectedIndex => _selectedIndex;
   bool get isExpanded => _isExpanded;
 
+  WidgetSt getWidgetState() {
+    return currentWidgetState;
+  }
+
+  void setWidgetState(WidgetSt state) {
+    currentWidgetState = state;
+    notifyListeners(); 
+  }
+  
   void updateIndex(int index) {
     _selectedIndex = index;
     notifyListeners();
@@ -19,6 +32,7 @@ class SliderState with ChangeNotifier {
     notifyListeners();
   }
 
+  
   void setFeeedbackText(String text) {
     feedbackText = text;
     notifyListeners();

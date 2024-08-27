@@ -17,9 +17,10 @@ class _CustomButtonState extends State<CustomButton> {
     return GestureDetector(
       onTap: () {
         sliderState.toggleExpand();
+        sliderState.setWidgetState(WidgetSt.feedback);
       },
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 200),
         margin: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         padding: EdgeInsets.only(left: 20),
         decoration: BoxDecoration(
@@ -61,7 +62,8 @@ class _CustomButtonState extends State<CustomButton> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Text("No Feedback"),
-                                content: Text("Please enter some feedback before submitting."),
+                                content: Text(
+                                    "Please enter some feedback before submitting."),
                                 actions: [
                                   TextButton(
                                     child: Text("OK"),
@@ -104,7 +106,8 @@ class _CustomButtonState extends State<CustomButton> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text("No Feedback"),
-                              content: Text("Please enter some feedback before submitting."),
+                              content: Text(
+                                  "Please enter some feedback before submitting."),
                               actions: [
                                 TextButton(
                                   child: Text("OK"),
@@ -174,4 +177,3 @@ class ButtonSubmit extends StatelessWidget {
     );
   }
 }
-
