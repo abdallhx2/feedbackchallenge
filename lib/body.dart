@@ -22,24 +22,48 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
-          children: [
-            _buildTopBar(),
-            _buildMessageOrQuestion(sliderState),
-            _buildFaces(sliderState),
-            _buildFeedbackText(sliderState),
-            _buildSlider(sliderState),
-            _buildCustomButtonOrThankYou(sliderState),
-            
-          if (sliderState.getWidgetState() == WidgetSt.initial) ...[
-          _buildMessageOrQuestion(sliderState, top: 130.0),
-          _buildSlider(sliderState, ),
-          _buildFaces(sliderState,top: 140.0),
-
-        ],
-          ],
+          children: _buildWidgetBasedOnState(sliderState),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildWidgetBasedOnState(SliderState sliderState) {
+    switch (sliderState.getWidgetState()) {
+      case WidgetSt.initial:
+        return [
+          _buildTopBar(),
+          _buildMessageQuestion(sliderState,
+              top: 220.0, left: 30.0, right: 30.0),
+          _buildFaces(sliderState, top: 220.0, left: 30.0, right: 30.0),
+          _buildFeedbackText(sliderState, top: 450.0, left: 30.0, right: 30.0),
+          _buildSlider(sliderState, bottom: 220.0, left: 30.0, right: 30.0),
+          _buildCustomButton(sliderState,
+              bottom: 30.0, left: 30.0, right: 30.0),
+        ];
+      case WidgetSt.feedback:
+        return [
+          _buildFaces(sliderState, top: 130.0, left: 30.0, right: 30.0),
+          _buildCustomButton(sliderState,
+              bottom: 150.0, left: 30.0, right: 30.0),
+        ];
+      case WidgetSt.thankYou:
+        return [
+          _buildFaces(sliderState, top: 140.0),
+          //  _buildThankYouMessage(sliderState),
+        ];
+      default:
+        return [
+          _buildTopBar(),
+          _buildMessageQuestion(sliderState,
+              top: 220.0, left: 30.0, right: 30.0),
+          _buildFaces(sliderState, top: 220.0, left: 30.0, right: 30.0),
+          _buildFeedbackText(sliderState, top: 450.0, left: 30.0, right: 30.0),
+          _buildSlider(sliderState, bottom: 220.0, left: 30.0, right: 30.0),
+          _buildCustomButton(sliderState,
+              bottom: 30.0, left: 30.0, right: 30.0),
+        ];
+    }
   }
 
   Widget _buildTopBar() {
@@ -68,84 +92,82 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     );
   }
 
-  Widget _buildMessageOrQuestion(SliderState sliderState, {double top = 0.0}) {
+  Widget _buildMessageQuestion(SliderState sliderState,
+      {double top = 0.0, double left = 0.0, double right = 0.0}) {
     return AnimatedPositioned(
       curve: Curves.easeInOut,
       duration: Duration(milliseconds: 300),
       top: top,
-      left: 30,
-      right: 30,
-      child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: Text(
-            'How was your shopping experience?',
-            key: ValueKey('question'),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24,
-              color: sliderState.getDarkColor(),
-            ),
-          )),
+      left: left,
+      right: right,
+      child: Text(
+        'How was your shopping experience?',
+        key: ValueKey('question'),
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 24,
+          color: sliderState.getDarkColor(),
+        ),
+      ),
     );
   }
 
-  Widget _buildFaces(SliderState sliderState,{double top = 0.0}) {
-    return const AnimatedPositioned(
-      curve: Curves.easeInOut,
-      duration: Duration(milliseconds: 300),
-      top: 220,
-      left: 30,
-      right: 30,
-      child: Faces(),
-    );
-  }
-
-  Widget _buildFeedbackText(SliderState sliderState) {
+  Widget _buildFaces(SliderState sliderState,
+      {double top = 0.0, double left = 0.0, double right = 0.0}) {
     return AnimatedPositioned(
       curve: Curves.easeInOut,
       duration: Duration(milliseconds: 300),
-      top: 450,
-      left: 30,
-      right: 30,
-      child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: Text(
-            sliderState.getText(),
-            key: ValueKey('feedbackText'),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 60,
-              fontWeight: FontWeight.w900,
-              color: sliderState.getBigTextColor(),
-            ),
-          )),
+      top: top,
+      left: left,
+      right: right,
+      child: const Faces(),
     );
   }
 
-  Widget _buildSlider(SliderState sliderState) {
+  Widget _buildFeedbackText(SliderState sliderState,
+      {double top = 0.0, double left = 0.0, double right = 0.0}) {
     return AnimatedPositioned(
       curve: Curves.easeInOut,
       duration: Duration(milliseconds: 300),
-      bottom: 220,
-      left: 30,
-      right: 30,
-      child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: CustomSlider(
-            key: ValueKey('slider'),
-          )),
+      top: top,
+      left: left,
+      right: right,
+      child: Text(
+        sliderState.getText(),
+        key: ValueKey('feedbackText'),
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 60,
+          fontWeight: FontWeight.w900,
+          color: sliderState.getBigTextColor(),
+        ),
+      ),
     );
   }
 
-  Widget _buildCustomButtonOrThankYou(SliderState sliderState) {
+  Widget _buildSlider(SliderState sliderState,
+      {double bottom = 0.0, double left = 0.0, double right = 0.0}) {
     return AnimatedPositioned(
       curve: Curves.easeInOut,
       duration: Duration(milliseconds: 300),
-      bottom: 30,
-      left: 30,
-      right: 30,
-      child: AnimatedSwitcher(
-          duration: Duration(milliseconds: 300), child: CustomButton()),
+      bottom: bottom,
+      left: left,
+      right: right,
+      child: CustomSlider(
+        key: ValueKey('slider'),
+      ),
+    );
+  }
+
+  Widget _buildCustomButton(SliderState sliderState,
+      {double bottom = 0.0, double left = 0.0, double right = 0.0}) {
+    return AnimatedPositioned(
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 300),
+      bottom: bottom,
+      left: left,
+      right: right,
+      child: CustomButton(),
     );
   }
 }

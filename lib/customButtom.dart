@@ -16,8 +16,14 @@ class _CustomButtonState extends State<CustomButton> {
 
     return GestureDetector(
       onTap: () {
-        sliderState.toggleExpand();
-        sliderState.setWidgetState(WidgetSt.feedback);
+        // تحقق من الحالة الحالية
+        if (sliderState.getWidgetState() == WidgetSt.initial) {
+          sliderState.toggleExpand();
+          sliderState.setWidgetState(WidgetSt.feedback);
+        } else if (sliderState.getWidgetState() == WidgetSt.feedback) {
+          sliderState.toggleExpand();
+          sliderState.setWidgetState(WidgetSt.initial);
+        }
       },
       child: AnimatedContainer(
         duration: Duration(milliseconds: 200),
@@ -55,6 +61,7 @@ class _CustomButtonState extends State<CustomButton> {
                           setState(() {
                             sliderState.setFeeedbackText(_controller.text);
                             sliderState.toggleExpand();
+                            sliderState.setWidgetState(WidgetSt.thankYou);
                           });
                         } else {
                           showDialog(
@@ -97,8 +104,9 @@ class _CustomButtonState extends State<CustomButton> {
                     onSubmit: () {
                       if (_controller.text.isNotEmpty) {
                         setState(() {
-                          sliderState.setFeeedbackText(_controller.text);
                           sliderState.toggleExpand();
+
+                          sliderState.setFeeedbackText(_controller.text);
                         });
                       } else {
                         showDialog(
