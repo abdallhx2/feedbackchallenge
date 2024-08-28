@@ -39,6 +39,7 @@ class CustomSlider extends StatelessWidget {
                         child: AnimatedContainer(
                           height: isSelected ? 50 : 17,
                           width: 50,
+  
                           duration: Duration(milliseconds: 200),
                           curve: Curves.easeInOut,
                           decoration: BoxDecoration(
