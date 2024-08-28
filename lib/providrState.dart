@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 enum WidgetSt { initial, feedback, thankYou }
 
 class SliderState with ChangeNotifier {
-  WidgetSt currentWidgetState = WidgetSt.initial;
+  WidgetSt _widgetState = WidgetSt.initial;
+  WidgetSt get widgetState => _widgetState;
+
+  double _topFace = 0.0;
+  double _topButton = 0.0;
 
   int _selectedIndex = 0;
   bool _isExpanded = false;
@@ -12,16 +16,41 @@ class SliderState with ChangeNotifier {
 
   int get selectedIndex => _selectedIndex;
   bool get isExpanded => _isExpanded;
+  double get topFace => _topFace;
+    double get topButton => _topFace;
+
 
   WidgetSt getWidgetState() {
-    return currentWidgetState;
+    return _widgetState;
   }
 
-  void setWidgetState(WidgetSt state) {
-    currentWidgetState = state;
-    notifyListeners(); 
+  void setWidgetState(WidgetSt newState) {
+    _widgetState = newState;
+    _updateTopPosition();
+    notifyListeners();
   }
-  
+
+  void _updateTopPosition() {
+    switch (_widgetState) {
+      case WidgetSt.initial:
+        _topFace = 220.0;
+        _topButton = 50.0;
+        break;
+      case WidgetSt.feedback:
+        _topFace = 150.0;
+        _topButton = 150.0;
+        break;
+      case WidgetSt.thankYou:
+        _topFace = 220.0;
+        _topButton = 50.0;
+        break;
+      default:
+        _topFace = 50.0;
+        _topFace = 220.0;
+        _topButton = 50.0;
+    }
+  }
+
   void updateIndex(int index) {
     _selectedIndex = index;
     notifyListeners();
@@ -32,7 +61,6 @@ class SliderState with ChangeNotifier {
     notifyListeners();
   }
 
-  
   void setFeeedbackText(String text) {
     feedbackText = text;
     notifyListeners();

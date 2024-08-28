@@ -16,7 +16,6 @@ class _CustomButtonState extends State<CustomButton> {
 
     return GestureDetector(
       onTap: () {
-        // تحقق من الحالة الحالية
         if (sliderState.getWidgetState() == WidgetSt.initial) {
           sliderState.toggleExpand();
           sliderState.setWidgetState(WidgetSt.feedback);
@@ -179,6 +178,50 @@ class ButtonSubmit extends StatelessWidget {
               style: TextStyle(color: backColor, fontWeight: FontWeight.bold),
             ),
             Icon(Icons.arrow_forward, size: 20, color: backColor),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonContinue extends StatelessWidget {
+  const ButtonContinue({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final sliderState = context.watch<SliderState>();
+
+    return InkWell(
+      onTap: () {
+        sliderState.setWidgetState(WidgetSt.initial);
+      },
+      child: Container(
+        height: 54,
+        width: 115,
+        alignment: Alignment.center,
+        padding: EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(40),
+          color: sliderState.getDarkColor(),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Countinue my shopping",
+              style: TextStyle(
+                  color: sliderState.getBackgroundColor(),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Icon(Icons.arrow_forward,
+                size: 20, color: sliderState.getBackgroundColor()),
           ],
         ),
       ),
