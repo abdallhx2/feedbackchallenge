@@ -16,9 +16,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     final sliderState = Provider.of<SliderState>(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: AnimatedContainer(
         curve: Curves.easeInOut,
-        duration: Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 500),
         color: sliderState.getBackgroundColor(),
         child: Stack(
           children: _buildWidgetBasedOnState(sliderState),
@@ -30,9 +31,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   List<Widget> _buildWidgetBasedOnState(SliderState sliderState) {
     if (sliderState.getWidgetState() == WidgetSt.initial) {
       return [
-        _buildInitialBody(sliderState),
         _buildFaces(sliderState),
         _buildCustomButton(sliderState),
+        _buildTopBar(sliderState),
+        _buildMessageQuestion(sliderState),
+        _buildFeedbackText(sliderState),
+        _buildSlider(sliderState),
       ];
     } else if (sliderState.getWidgetState() == WidgetSt.feedback) {
       return [
@@ -41,34 +45,22 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       ];
     } else if (sliderState.getWidgetState() == WidgetSt.thankYou) {
       return [
-        _buildTopBar(),
         _buildFaces(sliderState),
+        _buildButtonContinue(sliderState),
+        _buildTopBar(sliderState),
         _buildThankYouMessage(
           sliderState,
         ),
+        _buildThankMessage(sliderState),
       ];
     } else {
       return [];
     }
   }
 
-  Widget _buildInitialBody(
+  Widget _buildTopBar(
     SliderState sliderState,
   ) {
-    return Column(
-      children: [
-        _buildTopBar(),
-        SizedBox(height: 30),
-        _buildMessageQuestion(sliderState),
-        SizedBox(height: 30),
-        _buildFeedbackText(sliderState),
-        SizedBox(height: 30),
-        _buildSlider(sliderState),
-      ],
-    );
-  }
-
-  Widget _buildTopBar() {
     return Positioned(
       top: 50,
       left: 30,
@@ -76,15 +68,48 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-            icon: Icon(Icons.close, color: Colors.black),
-            onPressed: () {},
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              padding: EdgeInsets.all(11.0),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: sliderState.getDarkColor().withOpacity(0.1)),
+              child: Icon(Icons.close, color: sliderState.getDarkColor()),
+            ),
           ),
-          IconButton(
-            icon: Icon(Icons.info_outline, color: Colors.black),
-            onPressed: () {},
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              padding: EdgeInsets.all(11.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: sliderState.getDarkColor().withOpacity(0.1),
+              ),
+              child:
+                  Icon(Icons.info_outline, color: sliderState.getDarkColor()),
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildThankMessage(
+    SliderState sliderState,
+  ) {
+    return Positioned(
+      bottom: 150,
+      right: 30,
+      left: 30,
+      child: Text(
+        'We appreciate your input and are always looking for ways to improve!',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+          color: sliderState.getDarkColor(),
+        ),
       ),
     );
   }
@@ -92,39 +117,36 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   Widget _buildThankYouMessage(
     SliderState sliderState,
   ) {
-    return Column(
-      children: [
-        Text(
-          'Thank you for your feedback!',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 33,
-            fontWeight: FontWeight.bold,
-            color: sliderState.getDarkColor(),
-          ),
+    return Positioned(
+      bottom: 200,
+      right: 30,
+      left: 30,
+      child: Text(
+        'Thank you for your feedback!',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 33,
+          fontWeight: FontWeight.bold,
+          color: sliderState.getDarkColor(),
         ),
-        Text(
-          'We appreciate your input and are always looking for ways to improve!',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            color: sliderState.getDarkColor(),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
   Widget _buildMessageQuestion(
     SliderState sliderState,
   ) {
-    return Text(
-      'How was your shopping experience?',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 24,
-        color: sliderState.getDarkColor(),
+    return Positioned(
+      top: 100,
+      right: 30,
+      left: 30,
+      child: Text(
+        'How was your shopping experience?',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 24,
+          color: sliderState.getDarkColor(),
+        ),
       ),
     );
   }
@@ -134,7 +156,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   ) {
     return AnimatedPositioned(
       curve: Curves.easeInOut,
-      duration: Duration(milliseconds: 700),
+      duration: Duration(milliseconds: 500),
       top: sliderState.topFace,
       left: 30,
       right: 30,
@@ -145,8 +167,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   Widget _buildFeedbackText(
     SliderState sliderState,
   ) {
-    return AnimatedSwitcher(
-      duration: Duration(milliseconds: 700),
+    return Positioned(
+      bottom: 220,
+      right: 30,
+      left: 30,
       child: Text(
         sliderState.getText(),
         textAlign: TextAlign.center,
@@ -162,14 +186,18 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   Widget _buildSlider(
     SliderState sliderState,
   ) {
-    return AnimatedSwitcher(
-        duration: Duration(milliseconds: 700), child: CustomSlider());
+    return Positioned(bottom: 150, right: 30, left: 30, child: CustomSlider());
   }
 
-  Widget _buildButtonContinue(SliderState sliderState,
-      {double bottom = 0.0, double left = 0.0, double right = 0.0}) {
-    return AnimatedSwitcher(
-      duration: Duration(milliseconds: 700),
+  Widget _buildButtonContinue(
+    SliderState sliderState,
+  ) {
+    return AnimatedPositioned(
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 500),
+      bottom: 50,
+      right: 30,
+      left: 30,
       child: ButtonContinue(),
     );
   }
@@ -179,7 +207,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   ) {
     return AnimatedPositioned(
       curve: Curves.easeInOut,
-      duration: Duration(milliseconds: 700),
+      duration: Duration(milliseconds: 500),
       bottom: sliderState.topButton,
       left: 30,
       right: 30,

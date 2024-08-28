@@ -25,11 +25,16 @@ class _CustomButtonState extends State<CustomButton> {
         }
       },
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 200),
+        duration: Duration(milliseconds: 500),
         margin: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         padding: EdgeInsets.only(left: 20),
         decoration: BoxDecoration(
-          border: Border.all(color: sliderState.getDarkColor()),
+          border: Border.all(
+            color: sliderState.isExpanded
+                ? sliderState.getDarkColor().withOpacity(0.4)
+                : sliderState.getDarkColor(),
+            width: sliderState.isExpanded ? 4 : 1,
+          ),
           borderRadius: BorderRadius.circular(30),
           color: sliderState.getborderColor(),
         ),
@@ -67,12 +72,27 @@ class _CustomButtonState extends State<CustomButton> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("No Feedback"),
+                                backgroundColor:
+                                    sliderState.getBackgroundColor(),
+                                title: Text(
+                                  "No Feedback",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: sliderState.getDarkColor()),
+                                ),
                                 content: Text(
-                                    "Please enter some feedback before submitting."),
+                                  "Please enter some feedback before submitting.",
+                                  style: TextStyle(
+                                      color: sliderState.getDarkColor()),
+                                ),
                                 actions: [
                                   TextButton(
-                                    child: Text("OK"),
+                                    child: Text(
+                                      "OK",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: sliderState.getDarkColor()),
+                                    ),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
@@ -112,12 +132,26 @@ class _CustomButtonState extends State<CustomButton> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text("No Feedback"),
+                              backgroundColor: sliderState.getBackgroundColor(),
+                              title: Text(
+                                "No Feedback",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: sliderState.getDarkColor()),
+                              ),
                               content: Text(
-                                  "Please enter some feedback before submitting."),
+                                "Please enter some feedback before submitting.",
+                                style: TextStyle(
+                                    color: sliderState.getDarkColor()),
+                              ),
                               actions: [
                                 TextButton(
-                                  child: Text("OK"),
+                                  child: Text(
+                                    "OK",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: sliderState.getDarkColor()),
+                                  ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
@@ -200,7 +234,7 @@ class ButtonContinue extends StatelessWidget {
       },
       child: Container(
         height: 54,
-        width: 115,
+        width: MediaQuery.of(context).size.width / 1.2,
         alignment: Alignment.center,
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
