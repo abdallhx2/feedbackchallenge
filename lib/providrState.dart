@@ -7,7 +7,7 @@ class SliderState with ChangeNotifier {
   WidgetSt _widgetState = WidgetSt.initial;
   WidgetSt get widgetState => _widgetState;
 
-  double _topFace = 150.0;
+  double _topFace = 200.0;
   double _topButton = 15.0;
 
   int _selectedIndex = 0;
@@ -32,15 +32,15 @@ class SliderState with ChangeNotifier {
   void _updateTopPosition() {
     switch (_widgetState) {
       case WidgetSt.initial:
-        _topFace = 150.0;
+        _topFace = 240.0;
         _topButton = 15.0;
         break;
       case WidgetSt.feedback:
-        _topFace = 50.0;
-        _topButton = 210.0;
+        _topFace = 100.0;
+        _topButton = 340.0;
         break;
       case WidgetSt.thankYou:
-        _topFace = 180.0;
+        _topFace = 250.0;
         _topButton = 15.0;
         break;
       default:

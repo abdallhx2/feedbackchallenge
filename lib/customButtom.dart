@@ -25,7 +25,7 @@ class _CustomButtonState extends State<CustomButton> {
         }
       },
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 500),
+        duration: Duration(milliseconds: 200),
         margin: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         padding: EdgeInsets.only(left: 20),
         decoration: BoxDecoration(

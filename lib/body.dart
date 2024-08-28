@@ -99,7 +99,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     SliderState sliderState,
   ) {
     return Positioned(
-      bottom: 150,
+      bottom: 220,
       right: 30,
       left: 30,
       child: Text(
@@ -118,7 +118,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     SliderState sliderState,
   ) {
     return Positioned(
-      bottom: 200,
+      bottom: 270,
       right: 30,
       left: 30,
       child: Text(
@@ -137,7 +137,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     SliderState sliderState,
   ) {
     return Positioned(
-      top: 100,
+      top: 150,
       right: 30,
       left: 30,
       child: Text(
@@ -168,7 +168,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     SliderState sliderState,
   ) {
     return Positioned(
-      bottom: 220,
+      bottom: 320,
       right: 30,
       left: 30,
       child: Text(
@@ -186,7 +186,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   Widget _buildSlider(
     SliderState sliderState,
   ) {
-    return Positioned(bottom: 150, right: 30, left: 30, child: CustomSlider());
+    return Positioned(bottom: 200, right: 30, left: 30, child: CustomSlider());
   }
 
   Widget _buildButtonContinue(
